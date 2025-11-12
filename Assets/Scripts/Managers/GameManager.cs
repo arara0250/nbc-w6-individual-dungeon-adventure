@@ -18,16 +18,31 @@ public class GameManager : MonoBehaviour
     private PlayerManager _playerManager;
     public PlayerManager PlayerManager
     {
-        get 
+        get
         {
             if (_playerManager == null)
             {
                 _playerManager = new GameObject("PlayerManager").AddComponent<PlayerManager>();
                 _playerManager.transform.parent = transform;
             }
-            return _playerManager; 
+            return _playerManager;
         }
         set { _playerManager = value; }
+    }
+
+    private UIManager _uiManager;
+    public UIManager UIManager
+    {
+        get
+        {
+            if (_uiManager == null)
+            {
+                _uiManager = new GameObject("UIManager").AddComponent<UIManager>();
+                _uiManager.transform.parent = transform;
+            }
+            return _uiManager;
+        }
+        set { _uiManager = value; }
     }
 
 
