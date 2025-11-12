@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
     [Header("Move")]
     [SerializeField] private float moveSpeed;
     private Vector2 curMovementInput;
+    private bool isMoving;
 
     [Header("Jump")]
     [SerializeField] private float jumpPower;
@@ -50,12 +51,14 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
-            _animator.SetBool("IsMoving", true);
+            isMoving = true;
+            _animator.SetBool("IsMoving", isMoving);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
-            _animator.SetBool("IsMoving", false);
+            isMoving = false;
+            _animator.SetBool("IsMoving", isMoving);
         }
     }
 
@@ -102,7 +105,7 @@ public class PlayerController : MonoBehaviour
 
         float lookingThreshold = 0.5f;
 
-        if (mouseDelta.magnitude > lookingThreshold)
+        if (mouseDelta.magnitude > lookingThreshold || isMoving)
             _animator.SetBool("IsMoving", true);
         else
             _animator.SetBool("IsMoving", false);
