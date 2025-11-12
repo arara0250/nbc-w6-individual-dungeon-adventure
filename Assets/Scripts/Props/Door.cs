@@ -11,7 +11,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public string GetInteractionText()
     {
-        return "열기[E]";
+        return "열기 [E]";
     }
 
     public void OnInteract()

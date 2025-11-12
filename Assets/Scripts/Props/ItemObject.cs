@@ -10,7 +10,7 @@ public class ItemObject : MonoBehaviour, IInteractable
 {
     public string GetInteractionText()
     {
-        return "줍기[E]";
+        return "줍기 [E]";
     }
 
     public void OnInteract()
