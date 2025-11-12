@@ -2416,7 +2416,7 @@ MonoBehaviour:
   maxXLook: 60
   lookSensitivity: 0.1
   checkRate: 0.05
-  maxRayDistance: 3
+  maxRayDistance: 2
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
