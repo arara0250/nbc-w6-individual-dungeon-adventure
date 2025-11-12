@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,14 @@ public class PlayerController : MonoBehaviour
     private float camCurXRot;
     private Vector2 mouseDelta;
 
+    [Header("Interaction")]
+    [SerializeField] private float checkRate = 0.05f;
+    private float lastCheckTime;
+    [SerializeField] private float maxRayDistance;
+    [SerializeField] private LayerMask layerMask;
+    [SerializeField] private GameObject curInteractGameObject;
+    [SerializeField] private TextMeshProUGUI interactionText;
+
     private Rigidbody _rigidbody;
     private Animator _animator;
 
@@ -34,6 +43,11 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
 
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void Update()
+    {
+        TryInteraction();
     }
 
     void FixedUpdate()
@@ -118,5 +132,33 @@ public class PlayerController : MonoBehaviour
         cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
 
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
+    }
+
+    public void OnInteraction(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            _animator.SetTrigger("Interact");
+        }
+    }
+
+    void TryInteraction()
+    {
+        if (Time.time - lastCheckTime > checkRate)
+        {
+            lastCheckTime = Time.time;
+
+            Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
+            RaycastHit hit;
+            Debug.DrawRay(ray.origin, transform.forward * maxRayDistance, Color.red);
+
+            if (Physics.Raycast(ray, out hit, maxRayDistance, layerMask))
+            {
+                curInteractGameObject = hit.collider.gameObject;
+
+                interactionText.gameObject.SetActive(true);
+                interactionText.text = "Open";
+            }
+        }
     }
 }
