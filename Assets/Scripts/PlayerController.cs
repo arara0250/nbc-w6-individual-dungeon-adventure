@@ -10,20 +10,38 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float jumpPower;
 
+    [Header("Look")]
+    [SerializeField] Transform cameraContainer;
+    [SerializeField] private float minXLook;
+    [SerializeField] private float maxXLook;
+    [SerializeField] private float lookSensitivity;
+    private float camCurXRot;
+    private Vector2 mouseDelta;
+
     private Rigidbody _rigidbody;
     private Animator _animator;
 
     private void Awake()
     {
         GameManager.Instance.PlayerManager.controller = this;
+    }
 
+    private void Start()
+    {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
     {
         Move();
+    }
+
+    private void LateUpdate()
+    {
+        CameraLook();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -56,5 +74,26 @@ public class PlayerController : MonoBehaviour
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
             _animator.SetTrigger("Jump");
         }
+    }
+
+    public void OnLook(InputAction.CallbackContext context)
+    {
+        mouseDelta = context.ReadValue<Vector2>();
+
+        float lookingThreshold = 0.5f;
+
+        if (mouseDelta.magnitude > lookingThreshold)
+            _animator.SetBool("IsMoving", true);
+        else
+            _animator.SetBool("IsMoving", false);
+    }
+
+    void CameraLook()
+    {
+        camCurXRot += mouseDelta.y * lookSensitivity;
+        camCurXRot = Mathf.Clamp(camCurXRot, minXLook, maxXLook);
+        cameraContainer.localEulerAngles = new Vector3(-camCurXRot, 0, 0);
+
+        transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
     }
 }
