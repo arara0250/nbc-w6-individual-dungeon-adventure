@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxRayDistance;
     [SerializeField] private LayerMask layerMask;
     [SerializeField] private GameObject curInteractGameObject;
+    private IInteractable curInteractable;
     [SerializeField] private TextMeshProUGUI interactionText;
 
     private Rigidbody _rigidbody;
@@ -136,9 +137,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteraction(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (curInteractGameObject != null && context.phase == InputActionPhase.Started)
         {
             _animator.SetTrigger("Interact");
+
+            curInteractable.OnInteract();
         }
     }
 
@@ -155,9 +158,15 @@ public class PlayerController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, maxRayDistance, layerMask))
             {
                 curInteractGameObject = hit.collider.gameObject;
+                curInteractable = hit.collider.GetComponent<IInteractable>();
 
                 interactionText.gameObject.SetActive(true);
-                interactionText.text = "Open";
+                interactionText.text = curInteractable.GetInteractionText();
+            }
+            else
+            {
+                curInteractGameObject = null;
+                interactionText.gameObject.SetActive(false);
             }
         }
     }
