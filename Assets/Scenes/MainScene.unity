@@ -551,6 +551,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpPower: 5
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
   cameraContainer: {fileID: 1433421637}
   minXLook: -60
   maxXLook: 60
@@ -2175,7 +2178,7 @@ GameObject:
   - component: {fileID: 8355419493185419449}
   - component: {fileID: 4597175468678986441}
   - component: {fileID: 3729377583671035496}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: floor_dirt_large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
