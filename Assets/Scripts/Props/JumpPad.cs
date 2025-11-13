@@ -5,9 +5,7 @@ public class JumpPad : MonoBehaviour
     [SerializeField] private float jumpPower;
 
     private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log(collision.gameObject.tag);
-        
+    {        
         if (collision.gameObject.CompareTag("Player"))
         {
             Rigidbody rb = collision.gameObject.GetComponent<Rigidbody>();
@@ -17,7 +15,7 @@ public class JumpPad : MonoBehaviour
                 return;
             }
 
-            rb.AddForce((Vector3.up + Vector3.forward * 2) * jumpPower, ForceMode.Impulse);
+            rb.AddForce((Vector3.forward * 10f) * jumpPower, ForceMode.Impulse);
         }
     }
 }
