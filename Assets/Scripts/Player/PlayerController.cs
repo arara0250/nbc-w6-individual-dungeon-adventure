@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI interactionText;
 
     private Rigidbody _rigidbody;
-    private Animator _animator;
+    private PlayerAnimationHandler _handler;
 
     private void Awake()
     {
@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _animator = GetComponentInChildren<Animator>();
+        _handler = GetComponent<PlayerAnimationHandler>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -65,19 +65,21 @@ public class PlayerController : MonoBehaviour
 
     public void SetMoveSpeed(float speed) => moveSpeed = speed;
 
+    public bool GetMovingState() => isMoving;
+
     public void OnMove(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
         {
             curMovementInput = context.ReadValue<Vector2>();
             isMoving = true;
-            _animator.SetBool("IsMoving", isMoving);
+            _handler.OnWalkingAnim();
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             curMovementInput = Vector2.zero;
             isMoving = false;
-            _animator.SetBool("IsMoving", isMoving);
+            _handler.OffWalkingAnim();
         }
     }
 
@@ -95,7 +97,7 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started && isOnGround())
         {
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
-            _animator.SetTrigger("Jump");
+            _handler.OnJumpAnim();
         }
     }
 
@@ -125,9 +127,9 @@ public class PlayerController : MonoBehaviour
         float lookingThreshold = 0.5f;
 
         if (mouseDelta.magnitude > lookingThreshold || isMoving)
-            _animator.SetBool("IsMoving", true);
+            _handler.OnWalkingAnim();
         else
-            _animator.SetBool("IsMoving", false);
+            _handler.OffWalkingAnim();
     }
 
     void CameraLook()
@@ -143,7 +145,7 @@ public class PlayerController : MonoBehaviour
     {
         if (curInteractGameObject != null && context.phase == InputActionPhase.Started)
         {
-            _animator.SetTrigger("Interact");
+            _handler.OnInteractionAnim();
 
             curInteractable.OnInteract();
         }

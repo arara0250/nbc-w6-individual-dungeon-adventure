@@ -27,7 +27,7 @@ public class PlayerCondition : MonoBehaviour
 
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
         hearts.TakeDamage();
     }
