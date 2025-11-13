@@ -157,7 +157,7 @@ public class PlayerController : MonoBehaviour
         {
             lastCheckTime = Time.time;
 
-            Ray ray = new Ray(transform.position + Vector3.up, transform.forward);
+            Ray ray = new Ray(transform.position + (Vector3.up * 1.2f), transform.forward);
             RaycastHit hit;
             Debug.DrawRay(ray.origin, transform.forward * maxRayDistance, Color.red);
 
