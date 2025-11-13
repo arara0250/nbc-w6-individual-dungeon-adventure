@@ -8,13 +8,17 @@ public interface IInteractable
 
 public class ItemObject : MonoBehaviour, IInteractable
 {
+    public ItemData data;
+    
     public string GetInteractionText()
     {
-        return "줍기 [E]";
+        return $"{data.itemName} ( E : 줍기 )";
     }
 
     public void OnInteract()
     {
-
+        GameManager.Instance.PlayerManager.curInteractItem = data;
+        GameManager.Instance.PlayerManager.addItem?.Invoke();
+        Destroy(gameObject);
     }
 }
