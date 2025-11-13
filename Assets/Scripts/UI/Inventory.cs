@@ -43,4 +43,16 @@ public class Inventory : MonoBehaviour
         keyCountText.text = keyCount.ToString();
         potionCountText.text = potionCount.ToString();
     }
+
+    public void UseKey()
+    {
+        keyCount--;
+        UpdateUI();
+    }
+
+    public void UseSpeedPotion()
+    {
+        potionCount--;
+        UpdateUI();
+    }
 }
