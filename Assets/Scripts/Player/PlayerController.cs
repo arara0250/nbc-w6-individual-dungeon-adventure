@@ -61,6 +61,10 @@ public class PlayerController : MonoBehaviour
         CameraLook();
     }
 
+    public float GetMoveSpeed() => moveSpeed;
+
+    public void SetMoveSpeed(float speed) => moveSpeed = speed;
+
     public void OnMove(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)

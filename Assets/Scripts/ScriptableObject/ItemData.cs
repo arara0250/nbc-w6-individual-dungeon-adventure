@@ -6,4 +6,7 @@ public class ItemData : ScriptableObject
     [Header("Info")]
     public string itemName;
     public GameObject itemPrefab;
+
+    [Header("Potion")]
+    public float duration;
 }
