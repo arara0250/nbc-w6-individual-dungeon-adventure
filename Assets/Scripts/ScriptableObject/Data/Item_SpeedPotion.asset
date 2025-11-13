@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Item_SpeedPotion
   m_EditorClassIdentifier: 
   itemName: "\uC2E0\uC18D\uC758 \uBB3C\uC57D"
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 5681662309102938181, guid: a50030a7f2584084885f3c8cf28799f1, type: 3}
   duration: 3

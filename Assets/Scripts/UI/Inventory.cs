@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour
         
         float beforeSpeed = controller.GetMoveSpeed();
 
-        controller.SetMoveSpeed(beforeSpeed * 2f);
+        controller.SetMoveSpeed(beforeSpeed * 2.5f);
 
         yield return new WaitForSeconds(3.0f);
 
